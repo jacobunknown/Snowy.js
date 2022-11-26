@@ -5,7 +5,7 @@ let it snow on your sites! ⛄
  
 ## Usage
 
-`<script scr="snowy.js">`
+`<script src="snowy.js">`
 
 `new Snowy(amount, buildup, zIndex, color)`
 
