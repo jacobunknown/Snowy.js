@@ -405,7 +405,7 @@ class Snowy {
 		}
 
 		if (this.buildUpHeight < this.pageHeight() + (this.buildUpSize * 2)) {
-			this.buildUpHeight += 1
+			this.buildUpHeight += 0.02
 		}
 
 		if (this.buildUp) {
