@@ -397,7 +397,6 @@ class Snowy {
 		this.ctx.fillStyle = this.color
 
 		if (!this.buildUp || this.buildUpHeight < this.pageHeight() + (this.buildUpSize * 2)) {
-			console.log("snow")
 			for (let i = 0; i < this.amount; i++) {
 				this.snowballs[i].update()
 				this.snowballs[i].draw()
