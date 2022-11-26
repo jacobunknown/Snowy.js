@@ -1,5 +1,7 @@
 # Snowy.js ❄
 let it snow on your sites! ⛄
+
+![GitHub](https://img.shields.io/github/license/jacobunknown/Snowy.js)
  
 ## Usage
 
