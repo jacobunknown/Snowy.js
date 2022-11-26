@@ -1,5 +1,5 @@
-# Snowy.js
-let it snow on your sites! ❄
+# Snowy.js ❄
+let it snow on your sites! ⛄
  
 ## Usage
 
