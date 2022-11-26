@@ -1,7 +1,7 @@
 # Snowy.js ❄
 let it snow on your sites! ⛄
 
-![GitHub](https://img.shields.io/github/license/jacobunknown/Snowy.j)
+![GitHub](https://img.shields.io/github/license/jacobunknown/Snowy.js)
 
 [Demo](https://jacobunknown.github.io/Snowy.js/demo)
  
