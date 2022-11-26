@@ -3,8 +3,8 @@ class Snowball {
 		this.canvas = canvas
 		this.ctx = ctx
 
-		this.minRadius = 3
-		this.maxRadius = 8
+		this.minRadius = 2
+		this.maxRadius = 5
 
 		this.maxSpeedX = 1
 
@@ -13,8 +13,6 @@ class Snowball {
 
 		this.reset()
 		this.y = Math.floor(Math.random() * (canvas.width - this.radius))
-
-		this.color = "white"
 	}
 	reset() {
 		this.radius = Math.floor(Math.random() * (this.maxRadius - this.minRadius)) + this.minRadius
@@ -33,8 +31,6 @@ class Snowball {
 		}
 	}
 	draw() {
-		this.ctx.fillStyle = this.color
-		
 		this.ctx.beginPath()
 		this.ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2)
 		this.ctx.fill()
@@ -42,10 +38,11 @@ class Snowball {
 }
 
 class Snowy {
-	constructor(amount, buildUp, zIndex) {
+	constructor(amount = 10, buildUp = false, zIndex = 10, color = "white") {
 		this.amount = amount
 		this.buildUp = buildUp
 		this.zIndex = zIndex
+		this.color = color
 
 		this.canvas = document.createElement("canvas")
 		this.ctx = this.canvas.getContext("2d")
@@ -56,7 +53,10 @@ class Snowy {
 		this.canvas.style.position = "absolute"
 		this.canvas.style.top = "0"
 		this.canvas.style.left = "0"
-		this.canvas.style.overflow = "hidden"
+
+		this.canvas.style.margin = "0"
+		this.canvas.style.padding = "0"
+
 		this.canvas.style.pointerEvents = "none"
 
 		this.snowballs = []
@@ -64,6 +64,10 @@ class Snowy {
 		for (let i = 0; i < amount; i++) {
 			this.snowballs.push(new Snowball(this.canvas, this.ctx))
 		}
+
+		this.buildUpHeight = 0
+		this.buildUpNoise = this.createBuildUpNoise()
+		this.buildUpSize = 100
 
 		this.size()
 		window.addEventListener("resize", () => {
@@ -74,16 +78,56 @@ class Snowy {
 			this.draw()
 		})
 	}
+	map(in_min, in_max, out_min, out_max) {
+		return (this - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	}
+	createBuildUpNoise() {
+		const buildUpNoise = []
+		for (let x = 0; x < window.innerWidth * 1.5; x++) {
+			buildUpNoise.push((perlin.get(x / 70, 0) / 2) + 1)
+		}
+		return buildUpNoise
+	}
+	pageHeight() {
+		return Math.max(document.body.offsetHeight, window.innerHeight)
+	}
 	size() {
 		this.canvas.width = window.innerWidth
-		this.canvas.height = Math.max(document.body.clientHeight, window.innerHeight)
+		this.canvas.height = this.pageHeight()
 	}
 	draw() {
 		this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
 
+		this.ctx.fillStyle = this.color
+
+		if (!this.buildUp || this.buildUpHeight < this.pageHeight() + (this.buildUpSize * 2))
 		for (let i = 0; i < this.amount; i++) {
 			this.snowballs[i].update()
 			this.snowballs[i].draw()
+		}
+
+		if (this.buildUpHeight < this.pageHeight() + (this.buildUpSize * 2)) {
+			this.buildUpHeight += 0.05
+		}
+
+		if (this.buildUp) {
+			this.ctx.beginPath()
+			for (let x = 0; x < window.innerWidth; x++) {
+				const offset = this.buildUpNoise[x] * (this.buildUpSize)
+				const y = (this.pageHeight() - this.buildUpHeight) + offset
+
+				if (x == 0) {
+					this.ctx.moveTo(x, y)
+				} else {
+					this.ctx.lineTo(x, y)
+				}
+			}
+			this.ctx.lineTo(window.innerWidth, this.pageHeight())
+			this.ctx.lineTo(0, this.pageHeight())
+			this.ctx.fill()
+			/*
+			this.ctx.fillRect(0, this.pageHeight() - this.buildUpHeight, window.innerWidth, this.buildUpHeight)
+			*/
 		}
 
 		requestAnimationFrame(() => {
