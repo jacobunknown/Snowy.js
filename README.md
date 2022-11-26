@@ -2,10 +2,12 @@
 let it snow on your sites! ⛄
 
 ![GitHub](https://img.shields.io/github/license/jacobunknown/Snowy.js)
+
+[Demo](https://jacobunknown.github.io/Snowy.js/demo)
  
 ## Usage
 
-`<script src="snowy.js">`
+`<script src="https://jacobunknown.github.io/Snowy.js/snowy.js"></script>`
 
 `new Snowy(amount, buildup, zIndex, color)`
 
